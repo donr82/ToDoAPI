@@ -60,5 +60,49 @@ namespace ToDoAPI.API.Controllers
 
             return Ok(todo);
         }//end GetToDo
+
+        public IHttpActionResult PostTodoitems(ToDoItemAPIViewModels todoitem)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid Data");
+            }
+
+            Todoitem newTodoitem = new Todoitem()
+            {
+                Action = todoitem.Action,
+                Done = todoitem.Done,
+                CategoryId = todoitem.CategoryId,
+            };
+
+            db.Todoitems.Add(newTodoitem);
+            db.SaveChanges();
+
+            return Ok(newTodoitem);
+        }//end PostTodoitems
+
+        public IHttpActionResult PutTodoitems(ToDoItemAPIViewModels todoitem)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest("Invalid Data");
+
+            Todoitem existingTodoitem = db.Todoitems.Where(t => t.Todoid == todoitem.Todoid).FirstOrDefault();
+
+            if (existingTodoitem != null)
+            {
+                existingTodoitem.Todoid = todoitem.Todoid;
+                existingTodoitem.Action = todoitem.Action;
+                existingTodoitem.Done = todoitem.Done;
+                existingTodoitem.CategoryId = todoitem.CategoryId;
+                db.SaveChanges();
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }//end PutTodoitem
+
+
     }//end ToDoController
 }//End namespace
