@@ -20,10 +20,10 @@
           <Property Name="Todoid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Action" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Done" Type="bit" Nullable="false" />
-          <Property Name="CategoryId" Type="int" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_Todoitems_Categories">
-          <End Role="Categories" Type="Self.Categories" Multiplicity="0..1" />
+          <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
           <End Role="Todoitems" Type="Self.Todoitems" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Categories">
@@ -63,11 +63,11 @@
           <Property Name="Todoid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Action" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Done" Type="Boolean" Nullable="false" />
-          <Property Name="CategoryId" Type="Int32" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Category" Relationship="Self.FK_Todoitems_Categories" FromRole="Todoitems" ToRole="Categories" />
         </EntityType>
         <Association Name="FK_Todoitems_Categories">
-          <End Role="Categories" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="Categories" Type="Self.Category" Multiplicity="1" />
           <End Role="Todoitems" Type="Self.Todoitem" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Categories">
