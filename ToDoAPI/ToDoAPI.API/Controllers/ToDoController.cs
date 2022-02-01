@@ -17,18 +17,18 @@ namespace ToDoAPI.API.Controllers
 
         public IHttpActionResult GetToDos()
         {
-            List<ToDoItemAPIViewModels> todos = db.Todoitems.Include("Category").Select(r => new ToDoItemAPIViewModels()
+            List<ToDoItemAPIViewModels> todos = db.Todoitems.Include("Category").Select(t => new ToDoItemAPIViewModels()
             {
 
-                Todoid = r.Todoid,
-                Action = r.Action,
-                Done = r.Done,
-                CategoryId = r.CategoryId,
+                Todoid = t.Todoid,
+                Action = t.Action,
+                Done = t.Done,
+                CategoryId = t.CategoryId,
                 Category = new CategoryViewModel()
                 {
-                    CategoryId = r.Category.CategoryId,
-                    Name = r.Category.Name,
-                    Description = r.Category.Description,
+                    CategoryId = t.Category.CategoryId,
+                    Name = t.Category.Name,
+                    Description = t.Category.Description,
                 }
             }).ToList<ToDoItemAPIViewModels>();
 
@@ -39,5 +39,26 @@ namespace ToDoAPI.API.Controllers
 
             return Ok(todos);
         }//end GetToDos
+
+        public IHttpActionResult GetToDo(int id)
+        {
+            ToDoItemAPIViewModels todo = db.Todoitems.Include("Category").Where(t => t.Todoid == id).Select(t => new ToDoItemAPIViewModels()
+            {
+                Todoid = t.Todoid,
+                Action = t.Action,
+                Done = t.Done,
+                CategoryId = t.CategoryId,
+                Category = new CategoryViewModel()
+                {
+                    CategoryId = t.Category.CategoryId,
+                    Name = t.Category.Name,
+                    Description = t.Category.Description,
+                }
+            }).FirstOrDefault();
+            if (todo == null)
+                return NotFound();
+
+            return Ok(todo);
+        }//end GetToDo
     }//end ToDoController
 }//End namespace
