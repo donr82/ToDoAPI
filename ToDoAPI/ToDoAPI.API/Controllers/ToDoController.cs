@@ -103,6 +103,30 @@ namespace ToDoAPI.API.Controllers
             }
         }//end PutTodoitem
 
+        public IHttpActionResult DeleteTodoitem(int id)
+        {
+            Todoitem todoitem = db.Todoitems.Where(t => t.Todoid == id).FirstOrDefault();
+
+            if (todoitem != null)
+            {
+                db.Todoitems.Remove(todoitem);
+                db.SaveChanges();
+                return Ok();
+            }
+            else 
+            {
+                return NotFound();
+            }
+        }//end DeleteTodoitem
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
 
     }//end ToDoController
 }//End namespace
